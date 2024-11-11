@@ -24,20 +24,43 @@ import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Interface `ItemDao` berfungsi sebagai Data Access Object (DAO) yang berisi
+ * fungsi-fungsi yang digunakan untuk mengelola data (CRUD).
+ */
+
 @Dao
 interface ItemDao {
+    /**
+     * Method `insert` sebagai operasi create,
+     * `OnConflictStrategy.IGNORE` digunakan untuk mengabaikan item yang
+     * memiliki konflik (misalnya, id yang sama).
+     */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(item: Item)
 
+    /**
+     * Method `update` sebagai operasi update,
+     */
     @Update
     suspend fun update(item: Item)
 
+    /**
+     * Method `delete` sebagai operasi delete,
+     */
     @Delete
     suspend fun delete(item: Item)
 
+    /**
+     * Method `getItem` untuk get atau mendapatkan data item berdasarkan id.
+     */
     @Query("SELECT * from items WHERE id = :id")
     fun getItem(id: Int): Flow<Item>
 
+    /**
+     * Method `getItem` untuk get atau mendapatkan semua data item yang
+     * diurutkan berdasarkan nama secara ascending
+     */
     @Query("SELECT * from items ORDER BY name ASC")
     fun getAllItems(): Flow<List<Item>>
 }

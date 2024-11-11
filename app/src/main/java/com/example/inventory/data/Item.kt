@@ -20,7 +20,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
- * Entity data class represents a single row in the database.
+ * Data class `Item` berfungsi sebagai entity untuk tabel `items` di database Room.
+ * Setiap instance `Item` merepresentasikan satu baris data dalam tabel.
  */
 @Entity(tableName = "items")
 data class Item(

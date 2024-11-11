@@ -21,14 +21,39 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
+/**
+ * class abstract `InventoryDatabase` mengimplement `RoomDatabase` yang digunakan
+ * untuk mengelola akses data melalui Room. Class `InventoryDatabase` menyediakan database
+ * yang terstruktur dan persistent untuk menyimpan data inventory.
+ */
+
 @Database(entities = [Item::class], version = 1, exportSchema = false)
 abstract class InventoryDatabase : RoomDatabase() {
+
+    /**
+     * Method abstract `itemDao` yang mengembalikan instance `ItemDao` yang berisi
+     * metode untuk operasi database create,read,update,delete pada tabel `items`.
+     */
 
     abstract fun itemDao(): ItemDao
 
     companion object {
+
+        /**
+         * Variabel Instance digunakan untuk menyimpan instance database yang telah dibuat.
+         * Variabel ini dilengkapi anotasi `@Volatile` untuk memastikan perubahan segera terlihat
+         * pada thread lain.
+         */
+
         @Volatile
         private var Instance: InventoryDatabase? = null
+
+        /**
+         * Method `getDatabase` mengembalikan instance singleton dari `InventoryDatabase`.
+         * Jika instance belum ada, akan dibuat baru melalui `Room.databaseBuilder`.
+         * Method ini dilengkapi `synchronized` untuk memastikan instance hanya dibuat satu kali
+         * walaupun dipanggil dari beberapa thread.
+         */
 
         fun getDatabase(context: Context): InventoryDatabase {
             // if the Instance is not null, return it, otherwise create a new database instance.
